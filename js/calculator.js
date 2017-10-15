@@ -1,27 +1,30 @@
-var equationArray = Object.values(document.getElementsByClassName('equation'));
+var operatorArray = Object.values(document.getElementsByClassName('operator'));
+var numeratorArray = Object.values(document.getElementsByClassName('numerator'));
 var outputBox = document.getElementById('output-box');
 
 
-// Displaying equation button values to output
-var displayOutput = e => {
+
+// Displaying Numerator button values to output
+var numeratorOutput = e => {
   // remove initial 0, unless starting with a decimal point
   if(outputBox.childNodes[0].wholeText === '0' && e.target.innerText !== '.') outputBox.removeChild(outputBox.firstChild);
 
-  // Don't allow 2 decimal points next to each other
-  // if(e.target.innerText === '.' && outputBox.childNodes.length > 0) {
-  //   if(/\.\./.test(outputBox.childNodes[0].wholeText)) {
-  //     console.log('Only one decimal allowed!')
-  //     return false;
-  //   }
-  // }
+  // Stop two decimals in one numerator
+  // Only check if user clicks '.' button
+  if(outputBox.childNodes && e.target.innerText === '.') {
+    var lastNumerator = outputBox.childNodes[0].wholeText.split(/[\*\-\/\+]/g).pop();
+    if(lastNumerator.includes('.')) return false;
+  }
 
   // display button value in output
   outputBox.appendChild(document.createTextNode(e.target.innerText));
 };
 
-equationArray.forEach(value => {
-  value.addEventListener('click', displayOutput, false);
+numeratorArray.forEach(value => {
+  value.addEventListener('click', numeratorOutput, false);
 });
+
+
 
 
 // 'AC' button
@@ -37,6 +40,7 @@ document.getElementById('clear').addEventListener('click', clearOutput, false);
 
 // '=' button
 var calculateOutput = () => {
+  // Get ouptutbox value
   var statement = outputBox.childNodes[0].wholeText;
   // clean statement
   statement = statement.replace(/[^-()\d/*+.]/g, '');
