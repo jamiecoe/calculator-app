@@ -12,7 +12,7 @@ var numeratorOutput = e => {
   // Stop two decimals in one numerator
   // Only check if user clicks '.' button
   if(outputBox.childNodes && e.target.innerText === '.') {
-    var lastNumerator = outputBox.childNodes[0].wholeText.split(/[\*\-\/\+]/g).pop();
+    var lastNumerator = outputBox.childNodes[0].wholeText.split(/[\*\-\/\+]/g).pop();    
     if(lastNumerator.includes('.')) return false;
   }
 
@@ -24,6 +24,16 @@ numeratorArray.forEach(value => {
   value.addEventListener('click', numeratorOutput, false);
 });
 
+
+// Displaying Operator button values to output
+var operatorOutput = e => {
+  // display button value in output
+  outputBox.appendChild(document.createTextNode(e.target.innerText));
+};
+
+operatorArray.forEach(value => {
+  value.addEventListener('click', operatorOutput, false);
+});
 
 
 
