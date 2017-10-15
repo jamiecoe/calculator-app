@@ -4,7 +4,18 @@ var outputBox = document.getElementById('output-box');
 
 // Displaying equation button values to output
 var displayOutput = e => {
-  if(outputBox.firstChild.nodeValue === '0') outputBox.removeChild(outputBox.firstChild);
+  // remove initial 0, unless starting with a decimal point
+  if(outputBox.childNodes[0].wholeText === '0' && e.target.innerText !== '.') outputBox.removeChild(outputBox.firstChild);
+
+  // Don't allow 2 decimal points next to each other
+  // if(e.target.innerText === '.' && outputBox.childNodes.length > 0) {
+  //   if(/\.\./.test(outputBox.childNodes[0].wholeText)) {
+  //     console.log('Only one decimal allowed!')
+  //     return false;
+  //   }
+  // }
+
+  // display button value in output
   outputBox.appendChild(document.createTextNode(e.target.innerText));
 };
 
@@ -32,7 +43,7 @@ var calculateOutput = () => {
   // clear output
   while (outputBox.firstChild) {
     outputBox.removeChild(outputBox.firstChild);
-  };  
+  };
   // display calculated statement
   outputBox.appendChild(document.createTextNode(eval(statement)));
 };
