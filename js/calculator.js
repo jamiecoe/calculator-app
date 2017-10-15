@@ -3,19 +3,16 @@ var numeratorArray = Object.values(document.getElementsByClassName('numerator'))
 var outputBox = document.getElementById('output-box');
 
 
-
 // Displaying Numerator button values to output
 var numeratorOutput = e => {
   // remove initial 0, unless starting with a decimal point
   if(outputBox.childNodes[0].wholeText === '0' && e.target.innerText !== '.') outputBox.removeChild(outputBox.firstChild);
-
   // Stop two decimals in one numerator
   // Only check if user clicks '.' button
   if(outputBox.childNodes && e.target.innerText === '.') {
-    var lastNumerator = outputBox.childNodes[0].wholeText.split(/[\*\-\/\+]/g).pop();    
+    var lastNumerator = outputBox.childNodes[0].wholeText.split(/[\*\-\/\+]/g).pop();
     if(lastNumerator.includes('.')) return false;
   }
-
   // display button value in output
   outputBox.appendChild(document.createTextNode(e.target.innerText));
 };

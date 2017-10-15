@@ -1,4 +1,13 @@
+h1 {
+  text-align: center;
+}
+
 #output-box {
   border: 1px solid black;
   height: 20px;
+}
+
+#calculator {
+  margin: auto;
+  width: 200px
 }
