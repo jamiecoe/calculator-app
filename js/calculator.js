@@ -24,6 +24,20 @@ numeratorArray.forEach(value => {
 
 // Displaying Operator button values to output
 var operatorOutput = e => {
+
+  // Algorithm for avoiding invalid double oporators
+  // If last output value was an operator
+  if(/\D/.test(outputBox.lastChild.nodeValue)) {    
+    // Avoid anything other than '*-'
+    if(outputBox.lastChild.nodeValue !== '*' && e.target.innerText !== '-') return false;
+    // Avoid anything other than '/-'
+    if(outputBox.lastChild.nodeValue !== '/' && e.target.innerText !== '-') return false;
+    // Avoid '--'
+    if(outputBox.lastChild.nodeValue === '-' && e.target.innerText === '-') return false;
+    // For '+-', remove the '+' sign as it is unnecessary
+    if(outputBox.lastChild.nodeValue === '+' && e.target.innerText === '-') outputBox.removeChild(outputBox.lastChild);
+  }
+
   // display button value in output
   outputBox.appendChild(document.createTextNode(e.target.innerText));
 };
