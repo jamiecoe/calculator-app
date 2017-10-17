@@ -1,27 +1,55 @@
-var equationArray = Object.values(document.getElementsByClassName('equation'));
+var operatorArray = Object.values(document.getElementsByClassName('operator'));
+var numeratorArray = Object.values(document.getElementsByClassName('numerator'));
 var outputBox = document.getElementById('output-box');
 
 
-// Displaying equation button values to output
-var displayOutput = e => {
+// Displaying Numerator button values to output
+var numeratorOutput = e => {
   // remove initial 0, unless starting with a decimal point
   if(outputBox.childNodes[0].wholeText === '0' && e.target.innerText !== '.') outputBox.removeChild(outputBox.firstChild);
+  // Stop two decimals in one numerator
+  // Only check if user clicks '.' button
+  if(outputBox.childNodes && e.target.innerText === '.') {
+    var lastNumerator = outputBox.childNodes[0].wholeText.split(/[\*\-\/\+]/g).pop();
+    if(lastNumerator.includes('.')) return false;
+  }
+  // display button value in output
+  outputBox.appendChild(document.createTextNode(e.target.innerText));
+};
 
-  // Don't allow 2 decimal points next to each other
-  // if(e.target.innerText === '.' && outputBox.childNodes.length > 0) {
-  //   if(/\.\./.test(outputBox.childNodes[0].wholeText)) {
-  //     console.log('Only one decimal allowed!')
-  //     return false;
-  //   }
-  // }
+numeratorArray.forEach(value => {
+  value.addEventListener('click', numeratorOutput, false);
+});
+
+
+// Displaying Operator button values to output
+var operatorOutput = e => {
+
+  // Algorithm for avoiding invalid double oporators
+  // If last output value was an operator
+  if(/^\D$/.test(outputBox.lastChild.nodeValue)) {
+    // Avoid anything other than '*-'
+    if(outputBox.lastChild.nodeValue !== '*' && e.target.innerText !== '-') return false;
+    // Avoid anything other than '/-'
+    if(outputBox.lastChild.nodeValue !== '/' && e.target.innerText !== '-') return false;
+    // Avoid '--'
+    if(outputBox.lastChild.nodeValue === '-' && e.target.innerText === '-') return false;
+    // For '+-', remove the '+' sign as it is unnecessary
+    if(outputBox.lastChild.nodeValue === '+' && e.target.innerText === '-') outputBox.removeChild(outputBox.lastChild);
+  }
+
+  // remove initial 0 if starting with a minus
+  if(outputBox.childNodes[0].wholeText === '0' && e.target.innerText === '-') outputBox.removeChild(outputBox.firstChild);
+
 
   // display button value in output
   outputBox.appendChild(document.createTextNode(e.target.innerText));
 };
 
-equationArray.forEach(value => {
-  value.addEventListener('click', displayOutput, false);
+operatorArray.forEach(value => {
+  value.addEventListener('click', operatorOutput, false);
 });
+
 
 
 // 'AC' button
@@ -35,8 +63,21 @@ var clearOutput = () => {
 document.getElementById('clear').addEventListener('click', clearOutput, false);
 
 
+// 'CE' button
+var backSpace = () => {
+  if(outputBox.firstChild) outputBox.removeChild(outputBox.lastChild);
+}
+
+document.getElementById('back-space').addEventListener('click', backSpace, false);
+
+
+
 // '=' button
 var calculateOutput = () => {
+
+  // Don't calculate if last value is an operator
+  if(/[\*\-\/\+]/.test(outputBox.lastChild.nodeValue)) return false;
+  // Get outputbox value
   var statement = outputBox.childNodes[0].wholeText;
   // clean statement
   statement = statement.replace(/[^-()\d/*+.]/g, '');
