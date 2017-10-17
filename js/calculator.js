@@ -65,6 +65,9 @@ document.getElementById('clear').addEventListener('click', clearOutput, false);
 
 // '=' button
 var calculateOutput = () => {
+
+  // Don't calculate if last value is an operator
+  if(/[\*\-\/\+]/.test(outputBox.lastChild.nodeValue)) return false;
   // Get ouptutbox value
   var statement = outputBox.childNodes[0].wholeText;
   // clean statement
