@@ -63,6 +63,15 @@ var clearOutput = () => {
 document.getElementById('clear').addEventListener('click', clearOutput, false);
 
 
+// 'CE' button
+var backSpace = () => {  
+  if(outputBox.firstChild) outputBox.removeChild(outputBox.lastChild);
+}
+
+document.getElementById('back-space').addEventListener('click', backSpace, false);
+
+
+
 // '=' button
 var calculateOutput = () => {
 
