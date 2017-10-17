@@ -1,5 +1,10 @@
-h1 {
-  text-align: center;
+button {
+  display: inline-block;
+  width: 40px;
+  height: 30px;
+  margin: 5px;
+  padding: 0;
+  border: 0;
 }
 
 #output-box {
@@ -8,6 +13,14 @@ h1 {
 }
 
 #calculator {
-  margin: auto;
-  width: 200px
+  width: 200px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+}
+
+#header {
+  text-align: center;
 }

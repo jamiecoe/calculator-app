@@ -65,7 +65,12 @@ document.getElementById('clear').addEventListener('click', clearOutput, false);
 
 // 'CE' button
 var backSpace = () => {
-  if(outputBox.firstChild) outputBox.removeChild(outputBox.lastChild);
+  // If there's only 1 value and it's a '0', do nothing. Otherwise remove the last value
+  if(outputBox.childNodes.length === 1 && outputBox.firstChild.nodeValue === '0') return false;
+  else outputBox.removeChild(outputBox.lastChild);
+  // If you've deleted the last value, display a '0'
+  if(outputBox.childNodes.length < 1) outputBox.appendChild(document.createTextNode(0));
+
 }
 
 document.getElementById('back-space').addEventListener('click', backSpace, false);
@@ -75,8 +80,8 @@ document.getElementById('back-space').addEventListener('click', backSpace, false
 // '=' button
 var calculateOutput = () => {
 
-  // Don't calculate if last value is an operator
-  if(/[\*\-\/\+]/.test(outputBox.lastChild.nodeValue)) return false;
+  // Don't calculate if last value is an operator, or there are no operators at all
+  if(/[\*\-\/\+]/.test(outputBox.lastChild.nodeValue) || !/[\*\-\/\+]/.test(outputBox.childNodes[0].wholeText)) return false;
   // Get outputbox value
   var statement = outputBox.childNodes[0].wholeText;
   // clean statement
