@@ -27,7 +27,7 @@ var operatorOutput = e => {
 
   // Algorithm for avoiding invalid double oporators
   // If last output value was an operator
-  if(/\D/.test(outputBox.lastChild.nodeValue)) {
+  if(/^\D$/.test(outputBox.lastChild.nodeValue)) {
     // Avoid anything other than '*-'
     if(outputBox.lastChild.nodeValue !== '*' && e.target.innerText !== '-') return false;
     // Avoid anything other than '/-'
@@ -64,7 +64,7 @@ document.getElementById('clear').addEventListener('click', clearOutput, false);
 
 
 // 'CE' button
-var backSpace = () => {  
+var backSpace = () => {
   if(outputBox.firstChild) outputBox.removeChild(outputBox.lastChild);
 }
 
@@ -77,7 +77,7 @@ var calculateOutput = () => {
 
   // Don't calculate if last value is an operator
   if(/[\*\-\/\+]/.test(outputBox.lastChild.nodeValue)) return false;
-  // Get ouptutbox value
+  // Get outputbox value
   var statement = outputBox.childNodes[0].wholeText;
   // clean statement
   statement = statement.replace(/[^-()\d/*+.]/g, '');
