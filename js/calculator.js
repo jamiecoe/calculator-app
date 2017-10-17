@@ -27,7 +27,7 @@ var operatorOutput = e => {
 
   // Algorithm for avoiding invalid double oporators
   // If last output value was an operator
-  if(/\D/.test(outputBox.lastChild.nodeValue)) {    
+  if(/\D/.test(outputBox.lastChild.nodeValue)) {
     // Avoid anything other than '*-'
     if(outputBox.lastChild.nodeValue !== '*' && e.target.innerText !== '-') return false;
     // Avoid anything other than '/-'
@@ -37,6 +37,10 @@ var operatorOutput = e => {
     // For '+-', remove the '+' sign as it is unnecessary
     if(outputBox.lastChild.nodeValue === '+' && e.target.innerText === '-') outputBox.removeChild(outputBox.lastChild);
   }
+
+  // remove initial 0 if starting with a minus
+  if(outputBox.childNodes[0].wholeText === '0' && e.target.innerText === '-') outputBox.removeChild(outputBox.firstChild);
+
 
   // display button value in output
   outputBox.appendChild(document.createTextNode(e.target.innerText));
