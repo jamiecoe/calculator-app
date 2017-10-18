@@ -6,6 +6,11 @@ button {
   vertical-align: top;
 }
 
+.bottom-row {
+  margin-top: -35px;
+  margin-bottom: 0px;
+}
+
 .container {
   font-size: 0;
 }
