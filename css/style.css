@@ -27,14 +27,6 @@ button {
   font-size: 0;
 }
 
-#output-box-hidden {
-  border: 1px solid black;
-  height: 20px;
-  margin-bottom: 10px;
-  padding: 3px;
-  overflow-x: scroll;
-}
-
 #output-box-display {
   background: #e0dfd5;
   border: 1px solid black;

@@ -1,15 +1,15 @@
 var operatorArray = Object.values(document.getElementsByClassName('operator'));
 var numeratorArray = Object.values(document.getElementsByClassName('numerator'));
-var outputBox = document.getElementById('output-box-hidden');
-var outputBoxDisplay = document.getElementById('output-box-display');
+var outputBox = document.getElementById('output-box-display');
 
 
 // Displaying Numerator button values to output
 var numeratorOutput = e => {
+
+  if(/=/.test(outputBox.childNodes[0].wholeText)) return false;
   // remove initial 0, unless starting with a decimal point
   if(outputBox.childNodes[0].wholeText === '0' && e.target.value !== '.') {
     outputBox.removeChild(outputBox.firstChild);
-    outputBoxDisplay.removeChild(outputBoxDisplay.firstChild);
   }
   // Stop two decimals in one numerator
   // Only check if user clicks '.' button
@@ -19,9 +19,6 @@ var numeratorOutput = e => {
   }
   // Add value to output calculation
   outputBox.appendChild(document.createTextNode(e.target.value));
-  // Display value in output box, with a space at the end ' '
-  outputBoxDisplay.appendChild(document.createTextNode(e.target.value));
-
 
 };
 
@@ -32,6 +29,9 @@ numeratorArray.forEach(value => {
 
 // Displaying Operator button values to output
 var operatorOutput = e => {
+
+  // remove equals sign if it's there
+  if(outputBox.firstChild.nodeValue.includes('=')) outputBox.firstChild.nodeValue = outputBox.firstChild.nodeValue.replace(/=/, '');;
 
   // Algorithm for avoiding invalid double oporators
   // If last output value was an operator
@@ -99,7 +99,7 @@ var calculateOutput = () => {
     outputBox.removeChild(outputBox.firstChild);
   };
   // display calculated statement
-  outputBox.appendChild(document.createTextNode(eval(statement)));
+  outputBox.appendChild(document.createTextNode('=' + eval(statement)));
 };
 
 document.getElementById('equals').addEventListener('click', calculateOutput, false);
